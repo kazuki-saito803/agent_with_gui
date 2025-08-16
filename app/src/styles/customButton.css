@@ -1,0 +1,11 @@
+.customButton {
+    background-color: blue;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+.customButton:hover {
+    background-color: black;
+}

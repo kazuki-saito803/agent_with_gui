@@ -1,11 +1,11 @@
 import React from 'react';
 import './styles/App.css';
-import MicRecorderPage from './pages/MicRecoderPage';
+import SubmitButton from './features/submitButton';
 
 function App() {
   return (
     <>
-      <MicRecorderPage />
+      <SubmitButton>送信</SubmitButton>
     </>
   );
 }
