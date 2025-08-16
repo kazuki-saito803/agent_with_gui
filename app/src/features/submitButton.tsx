@@ -1,17 +1,12 @@
 import { HandHelping } from 'lucide-react'
 import CustomButton from '../components/customButton'
 
-const handlSubmit = () => {
-    console.log("Hello world")
-    return <p>hello</p>
-}
-
 type CustomButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
-const submitButton: React.FC<CustomButtonProps> = () => {
+const SubmitButton: React.FC<CustomButtonProps> = ({...props}) => {
     return (
         <>
-            <CustomButton onClick={handlSubmit}>送信</CustomButton>
+            <CustomButton {...props}>📩</CustomButton>
         </>
     )
 }
-export default submitButton;
+export default SubmitButton;

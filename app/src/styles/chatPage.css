@@ -1,0 +1,49 @@
+.inputContainer {
+    position: fixed;      /* 画面に固定 */
+    bottom: 0;            /* 下端に配置 */
+    left: 0;              /* 左端に配置 */
+    width: 100%;          /* 横幅いっぱい */
+    display: flex;        /* 横並び */
+    align-items: center;  /* 高さ中央揃え */
+    padding: 8px;
+    gap: 8px;
+    background-color: white;   /* 背景色を付けて下のコンテンツが見えないように */
+    border-top: 1px solid #ccc;
+    box-sizing: border-box;    /* padding込みで幅を100%にする */
+    z-index: 1000;             /* 他のコンテンツより前面に表示 */
+}
+  
+.messageInput {
+    flex: 1;                /* 入力欄を伸ばす */
+}
+
+.messageContainer {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+  
+/* ユーザーメッセージ（右側） */
+.messageContainer p.user {
+    align-self: flex-end;         /* 右寄せ */
+    background-color: #2563eb;    /* 青色 */
+    color: white;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 70%;               /* 横幅制限 */
+    word-wrap: break-word;
+}
+  
+/* ボットメッセージ（左側） */
+.messageContainer p.bot {
+    align-self: flex-start;       /* 左寄せ */
+    background-color: #e5e7eb;    /* グレー系 */
+    color: black;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 70%;               /* 横幅制限 */
+    word-wrap: break-word;
+}
