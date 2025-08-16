@@ -7,10 +7,10 @@ const handlSubmit = () => {
 }
 
 type CustomButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
-const submitButton: React.FC<CustomButtonProps> = ({children}) => {
+const submitButton: React.FC<CustomButtonProps> = () => {
     return (
         <>
-            <CustomButton onClick={handlSubmit}>{children}</CustomButton>
+            <CustomButton onClick={handlSubmit}>送信</CustomButton>
         </>
     )
 }

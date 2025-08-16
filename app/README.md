@@ -44,3 +44,81 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+お〜いい視点ですね！👏
+はい、まさに TypeScript の静的型チェックが原因ですが、「どういうロジックでこのエラーが出たのか」をもう少し掘り下げると以下の流れになります。
+
+⸻
+
+✅ React + TypeScript で JSX が処理される流れ
+	1.	JSX の <SubmitButton>button</SubmitButton> をパース
+	•	TypeScript はこれを
+
+React.createElement(SubmitButton, { children: "button" })
+
+に変換して解釈します。
+
+⸻
+
+	2.	SubmitButton コンポーネントの型を確認
+	•	TypeScript は SubmitButton の型を見て、
+	•	どんな props を受け取れるか
+	•	children を許可しているか
+をチェックします。
+例えば SubmitButton: React.FC<SubmitButtonProps> であれば、React.FC によって暗黙的に
+
+{ children?: React.ReactNode }
+
+が props に含まれます。
+
+⸻
+
+	3.	受け渡し props の型チェック
+	•	JSX からは { children: "button" } という props オブジェクトが渡ってきます。
+	•	TypeScript はこの { children: string } が SubmitButton の props 型に一致するかどうかを検証します。
+
+⸻
+
+	4.	型不一致ならエラー
+	•	もし SubmitButton がただの const SubmitButton: () => JSX.Element みたいに定義されていて、props 型を受け取らない場合、TypeScript から見れば「このコンポーネントは props を受け取らない型」になります。
+	•	そこに { children: "button" } が渡されるので、「props 型と合ってない」とエラーになるわけです。
+エラーメッセージの
+
+Type '{ children: string; }' has no properties in common with type 'IntrinsicAttributes'
+
+はまさに「このコンポーネントは IntrinsicAttributes (特殊属性) しか受け取れないのに、children を渡してるぞ」と言ってる状態。
+
+⸻
+
+✅ つまり根本原因は？
+	•	JSX は children を props として渡す仕組みになっている
+	•	なのにコンポーネント側の型に children が含まれていなかった
+	•	そのため 型の不一致 として TypeScript が静的に検出 → エラー
+
+⸻
+
+✅ わかりやすい例
+
+const NoProps = () => <div>No props</div>;
+
+// ❌ エラー: children は定義されていない
+<NoProps>button</NoProps>;
+
+const WithProps: React.FC = ({ children }) => <div>{children}</div>;
+
+// ✅ OK: React.FC によって children が型定義されている
+<WithProps>button</WithProps>;
+
+
+⸻
+
+🔑 まとめると：
+	•	JSX → React.createElement(Component, { children })
+	•	TS が「children は型定義されてる？」をチェック
+	•	含まれてなければ「不一致」エラー
+
+⸻
+
+Matheusはもっと「TypeScript コンパイラが JSX を型推論する内部処理フロー」まで追いたい？
+それとも「エラーが出る理由がわかればOK」くらいで大丈夫そうですか？

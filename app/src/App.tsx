@@ -1,11 +1,11 @@
 import React from 'react';
 import './styles/App.css';
-import SubmitButton from './features/submitButton';
+import ChatPage from './pages/chatPage';
 
 function App() {
   return (
     <>
-      <SubmitButton>送信</SubmitButton>
+      <ChatPage />
     </>
   );
 }
